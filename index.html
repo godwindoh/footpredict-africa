@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FootPredict Africa</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f1f5f9;
+      color: #172033;
+    }
+
+    header {
+      background: #123c2b;
+      color: white;
+      padding: 24px 16px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 26px;
+    }
+
+    header p {
+      margin-bottom: 0;
+      color: #d1fae5;
+    }
+
+    main {
+      max-width: 700px;
+      margin: 28px auto;
+      padding: 0 16px;
+    }
+
+    .match {
+      background: white;
+      border-radius: 14px;
+      padding: 20px;
+      box-shadow: 0 4px 14px #0000000d;
+    }
+
+    .match h2 {
+      margin-top: 0;
+    }
+
+    .teams {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      gap: 12px;
+      text-align: center;
+      margin: 24px 0;
+    }
+
+    .team {
+      font-weight: bold;
+      font-size: 17px;
+    }
+
+    .vs {
+      color: #64748b;
+    }
+    <button onclick="alert('Le module de statistiques sera ajouté à la prochaine étape.')">
+  Analyser le match
+</button>
+
+    .notice {button {
+  display: block;
+  width: 100%;
+  padding: 13px;
+  background: #167344;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #105c35;
+}
+      color: #64748b;
+      font-size: 13px;
+      margin-top: 18px;
+    }.prediction {
+  margin-top: 20px;
+  padding: 15px;
+  background: #eaf5ee;
+  border: 1px solid #b8ddc5;
+  border-radius: 10px;
+}
+
+.prediction h3 {
+  color: #167344;
+  margin-top: 0;
+}
+
+#resultat {
+  margin-top: 15px;
+  padding: 12px;
+  background: white;
+  border-radius: 6px;
+  font-weight: bold;
+}
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>⚽ FootPredict Africa</h1>
+    <p>Les statistiques au service du football</p>
+  </header>
+
+  <main>
+    <section class="match">
+      <h2>Match de démonstration</h2>
+
+      <p>Championnat : Exemple de championnat</p>
+      <p><strong>Championnat :</strong> Liga espagnole</p>
+<div class="teams">
+      <div class="team">Real Madrid</div>
+    <div class="vs">VS</div>
+    <div class="team">FC Barcelone</div>
+</div>
+
+<p><strong>Date :</strong> 25 octobre 2026</p>
+<p><strong>Heure :</strong> 20h00</p>
+<div class="stats">
+    <h3>Statistiques du match</h3>
+
+    <p><strong>Real Madrid</strong></p>
+    <p>Forme récente : V - V - N - D - V</p>
+    <p>Moyenne de buts : 2,1 par match</p>
+
+    <hr>
+
+    <p><strong>FC Barcelone</strong></p>
+    <p>Forme récente : V - N - V - V - D</p>
+    <p>Moyenne de buts : 1,8 par match</p>
+
+    <p class="notice">
+        Données fictives utilisées pour tester l'application.
+    </p>
+</div>
+
+      </div><button onclick="alert('Le module de statistiques sera ajouté à la prochaine étape.')">
+  Analyser le match
+</button>
+<div class="prediction">
+    <h3>Prédiction du match</h3>
+
+    <button onclick="calculerPrediction()">
+        Calculer la prédiction
+    </button>
+
+    <p id="resultat">Le résultat apparaîtra ici.</p>
+</div>
+      <p class="notice">
+        Match fictif utilisé pour tester l'application.
+        Aucune prédiction réelle n'est disponible pour le moment.
+      </p>
+    </section>
+  </main>
+  <script>
+ 
+
+function calculerPrediction() {
+    const butsRealMadrid = 2.1;
+    const butsBarcelone = 1.8;
+
+    function factorielle(n) {
+        let resultat = 1;
+
+        for (let i = 2; i <= n; i++) {
+            resultat *= i;
+        }
+
+        return resultat;
+    }
+
+    function probabiliteButs(moyenne, buts) {
+        return (
+            Math.exp(-moyenne) *
+            Math.pow(moyenne, buts) /
+            factorielle(buts)
+        );
+    }
+
+    let victoireReal = 0;
+    let matchNul = 0;
+    let victoireBarcelone = 0;
+
+    for (let real = 0; real <= 8; real++) {
+        for (let barcelone = 0; barcelone <= 8; barcelone++) {
+            const probabilite =
+                probabiliteButs(butsRealMadrid, real) *
+                probabiliteButs(butsBarcelone, barcelone);
+
+            if (real > barcelone) {
+                victoireReal += probabilite;
+            } else if (real === barcelone) {
+                matchNul += probabilite;
+            } else {
+                victoireBarcelone += probabilite;
+            }
+        }
+    }
+
+    const total =
+        victoireReal + matchNul + victoireBarcelone;
+
+    const probaReal = victoireReal / total * 100;
+    const probaNul = matchNul / total * 100;
+    const probaBarcelone = victoireBarcelone / total * 100;
+
+    document.getElementById("resultat").textContent =
+        "Estimation des buts : Real Madrid " +
+        butsRealMadrid + " - " + butsBarcelone +
+        " FC Barcelone | Victoire Real Madrid : " +
+        probaReal.toFixed(1) + "%" +
+        " | Match nul : " + probaNul.toFixed(1) + "%" +
+        " | Victoire FC Barcelone : " +
+        probaBarcelone.toFixed(1) + "%" +
+        " (modèle de démonstration, données fictives)";
+}
+
+</script>
+</body>
+
